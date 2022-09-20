@@ -1,8 +1,6 @@
-// import { useState } from 'react';
 import countStore from './countStore';
 
 function MyButton() {
-  // const [count, setCount] = useState(0);
   const [count] = countStore.useState('value');
 
   function handleClick() {

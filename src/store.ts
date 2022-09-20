@@ -38,7 +38,7 @@ export default class Store<State extends Record<string, any>> {
   private rerenderComponents(needUpdateKeys: string[]): void {
     this._stateUsageMap.forEach((usage) => {
       if (_.intersection(usage.stateKeys, needUpdateKeys).length) {
-        usage.rerender();
+        usage.rerender(newUuid());
       }
     });
   }
