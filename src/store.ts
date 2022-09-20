@@ -43,7 +43,9 @@ export default class Store<State extends Record<string, any>> {
     });
   }
 
-  useState = (...stateKeys: (keyof State & string)[]): any[] => {
+  useState = <T extends keyof State & string>(
+    ...stateKeys: [T, ...T[]]
+  ): { [k in T]: State[k] } => {
     // 校验 stateKeys 合法性
     const isKeysNotValid = stateKeys.some(
       (key) => !Object.keys(this._state).includes(key)
@@ -59,8 +61,7 @@ export default class Store<State extends Record<string, any>> {
       this.addUsage(componentId, stateKeys, rerender);
       return () => this.removeUsage(componentId);
     });
-
-    return stateKeys.map((key) => this._state[key]);
+    return _.pick(this._state, stateKeys);
   };
 
   setState(newState: Partial<State>): void {
